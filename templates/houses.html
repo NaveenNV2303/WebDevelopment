@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Houses</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .house-card {
+            margin-bottom: 20px;
+        }
+        .house-card img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>List of Houses</h1>
+        <div class="row">
+            {% for house in houses %}
+            <div class="col-md-4">
+                <div class="card house-card">
+                    <img src="{{ house.images[0] }}" class="card-img-top" alt="House Image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ house.images[0] }}</h5>
+                        <p class="card-text">Location: {{ house.location }}</p>
+                        <p class="card-text">Description: {{ house.description }}</p>
+                        <p class="card-text">Price: ${{ house.price }}</p>
+                        <p class="card-text">Facilities: {{ house.facilities }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
