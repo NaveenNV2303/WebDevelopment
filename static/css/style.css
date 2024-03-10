@@ -13,13 +13,41 @@
 .btn-primary {
     margin-top: 20px;
 }
-.house-card {
+/* .house-card {
     margin-bottom: 20px;
 }
 .house-card img {
     max-width: 100%;
     height: auto;
+} */
+.house-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
 }
+
+.house-card .card-body {
+    padding: 20px;
+}
+
+.house-card img {
+    max-height: 200px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.price {
+    font-weight: bold;
+}
+
+.call-button .btn {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Additional styles as needed */
+
 .navbar-brand img {
     max-height: 50px; 
 }
@@ -39,19 +67,7 @@
     font-size: 3em;
     margin-bottom: 20px;
 }
-#servicesCarousel .carousel-item img {
-    max-width: 100%;
-    height: 300px;
-    object-fit: cover;
-}
-/* #servicesCarousel {
-    padding-left: 30px; 
-    padding-right: 30px; 
-} */
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    background-color: black; /* Change button color to black */
-}
+
 /* About Us section styling */
 .about-section {
     background-color: #f8f9fa;

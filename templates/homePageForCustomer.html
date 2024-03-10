@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List of Houses</title>
+    <title>Home</title>
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
@@ -24,6 +24,37 @@
                 <div class="card house-card">
                     <img src="{{ house.images[0] }}" class="card-img-top" alt="House Image">
                     <div class="card-body">
+                        <p class="card-text price">Price: <strong>${{ house.price }}</strong></p>
+                        <p class="card-text mb-2"><strong>Address:</strong> {{ house.address }}, {{house.location}}</p>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <p class="card-text"><strong>Bedroom:</strong> {{ house.bedroom }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="card-text"><strong>Bathroom:</strong> {{ house.bathroom }}</p>
+                            </div>
+                        </div>
+                        <p class="card-text description mt-4">{{ house.description }}</p>
+                        <p class="card-text facilities"><strong>Facilities:</strong> {{ house.facilities }}</p>
+                        <div class="row">
+                            <div class="col-md-12 text-center"> <!-- Adjust the column size and alignment -->
+                                <div class="call-button">
+                                    <a href="tel:{{ house.phoneNumber }}" class="btn btn-primary mt-0">Call Now: {{house.phoneNumber}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- <div class="row">
+            {% for house in houses %}
+            <div class="col-md-4">
+                <div class="card house-card">
+                    <img src="{{ house.images[0] }}" class="card-img-top" alt="House Image">
+                    <div class="card-body">
                         <h5 class="card-title">{{ house.address }}</h5>
                         <p class="card-text">Location: {{ house.location }}</p>
                         <p class="card-text">Description: {{ house.description }}</p>
@@ -36,7 +67,7 @@
                 </div>
             </div>
             {% endfor %}
-        </div>
+        </div> -->
     </div>
     {% include 'footer.html' %}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
