@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Houses</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <h2>Welcome, {{ session['user'] }}</h2>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+            </div>
+        </div>
+        <p>This is the admin dashboard.</p>
+        <!-- Add house button -->
+        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#addHouseModal">
+            Add House
+        </button>
+        <!-- Add house modal -->
+        <div class="modal fade" id="addHouseModal" tabindex="-1" role="dialog" aria-labelledby="addHouseModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addHouseModalLabel">Add House</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('add_house') }}" method="POST" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" name="address" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="location" name="location" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Price</label>
+                                <input type="number" class="form-control" id="price" name="price" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="facilities" class="form-label">Facilities</label>
+                                <input type="text" class="form-control" id="facilities" name="facilities" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="images" class="form-label">Images</label>
+                                <input type="file" class="form-control" id="images" name="images" multiple required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Houses Cards -->
+        <div class="row mt-3">
+            {% for house in houses %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ house.images[0] }}" class="card-img-top" alt="House Image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ house.address }}</h5>
+                        <p class="card-text">Location: {{ house.location }}</p>
+                        <p class="card-text">Description: {{ house.description }}</p>
+                        <p class="card-text">Price: ${{ house.price }}</p>
+                        <p class="card-text">Facilities: {{ house.facilities }}</p>
+                        <button type="button" class="btn btn-primary mr-2 mt-0 update-btn" onclick="openUpdateForm('{{ house.id }}','{{ house.address }}','{{ house.location }}','{{ house.description }}','{{ house.price }}','{{ house.facilities }}')" data-toggle="modal" data-target="#updateHouseModal">Update</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteHouse('{{ house.id }}')">Delete</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- Update house modal -->
+        <div class="modal fade" id="updateHouseModal" tabindex="-1" role="dialog" aria-labelledby="updateHouseModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateHouseModalLabel">Update House</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="updateHouseForm" action="{{ url_for('update_house') }}" method="POST">
+                            <input type="hidden" id="update_house_id" name="house_id">
+                            <div class="mb-3">
+                                <label for="update_address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="update_address" name="address" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="update_location" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="update_location" name="location" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="update_description" class="form-label">Description</label>
+                                <textarea class="form-control" id="update_description" name="description" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="update_price" class="form-label">Price</label>
+                                <input type="number" class="form-control" id="update_price" name="price" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="update_facilities" class="form-label">Facilities</label>
+                                <input type="text" class="form-control" id="update_facilities" name="facilities" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function openUpdateForm(house_id,address,location,description,price,facilities) {
+            document.getElementById('update_house_id').value = house_id;
+            document.getElementById('update_address').value = address;
+            document.getElementById('update_location').value = location;
+            document.getElementById('update_description').value = description;
+            document.getElementById('update_price').value = price;
+            document.getElementById('update_facilities').value = facilities;
+        }
+        function deleteHouse(houseId) {
+            if (confirm("Are you sure you want to delete this house?")) {
+                console.log("houseId:",houseId)
+                // Make an AJAX request to delete the house
+                fetch(`/delete_house/${houseId}`, {
+                    method: 'DELETE',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        console.error('Failed to delete the house');
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting the house:', error);
+                });
+            }
+        }
+
+    </script>
+</body>
+</html>
