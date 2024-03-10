@@ -67,13 +67,22 @@ def add_house():
         return "Error adding house", 500
 
 # Route for listing houses
-@app.route("/houses")
+@app.route("/home")
 def list_houses():
     # Retrieve list of houses from Firestore
     houses_ref = firebase_db.collection("houses")
     houses = [doc.to_dict() for doc in houses_ref.stream()]
+    return render_template("homePageForCustomer.html", houses=houses)
 
-    return render_template("houses.html", houses=houses)
+# Route for about page
+@app.route("/about")
+def aboutPage():
+    return render_template("about.html")
+
+# Route for services page
+@app.route("/services")
+def servicesPage():
+    return render_template("services.html")
 
 if __name__ == "__main__":
 #  For Prod
