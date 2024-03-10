@@ -212,6 +212,6 @@ def verify_admin_credentials(email, password):
 
 if __name__ == "__main__":
 #  For Prod
-#  app.run(host='0.0.0.0',port='8080', ssl_context=('cert.pem', 'privkey.pem'))
+ app.run(host='0.0.0.0',port='8080', ssl_context=('cert.pem', 'privkey.pem'))
 #  For Dev
- app.run(debug=True)
+#  app.run(debug=True)
