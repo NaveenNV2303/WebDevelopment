@@ -22,7 +22,10 @@ except Exception as e:
 # Default landing page for the website.
 @app.route("/")
 def index():
-    return render_template("index.html")
+    if 'user' in session and session['user'] == 'admin@gmail.com':
+        return render_template("admin_dashboard.html")
+    # Retrieve list of houses from Firestore
+    return render_template("homePageForCustomer.html")
 
 # Add House to firebase
 @app.route("/add_house", methods=["POST"])
@@ -31,11 +34,12 @@ def add_house():
     # Get form data
         address = request.form["address"]
         location = request.form["location"]
-        # bedroom = request.form["bedroom"]
-        # bathroom = request.form["bathroom"]
         description = request.form["description"]
         price = float(request.form["price"])
         facilities = request.form["facilities"]
+        bedroom = request.form["bedroom"]
+        bathroom = request.form["bathroom"]
+        phoneNumber = request.form["phoneNumber"]
         images = request.files.getlist("images")
         image_urls = []
 
@@ -58,11 +62,12 @@ def add_house():
         house_ref = firebase_db.collection("houses").add({
             "address": address,
             "location": location,
-            # "bedroom":bedroom,
-            # "bathroom":bathroom,
             "description": description,
             "price": price,
             "facilities": facilities,
+            "bedroom":bedroom,
+            "bathroom":bathroom,
+            "phoneNumber":phoneNumber,
             "images": image_urls
         })
 
@@ -83,6 +88,9 @@ def update_house():
         description = request.form.get("description")
         price = float(request.form.get("price"))
         facilities = request.form.get("facilities")
+        bedroom = request.form["bedroom"]
+        bathroom = request.form["bathroom"]
+        phoneNumber = request.form["phoneNumber"]
 
         # Update house details in Firestore
         house_ref = firebase_db.collection("houses").document(house_id)
@@ -91,7 +99,10 @@ def update_house():
             "location": location,
             "description": description,
             "price": price,
-            "facilities": facilities
+            "facilities": facilities,
+            "bedroom":bedroom,
+            "bathroom":bathroom,
+            "phoneNumber":phoneNumber
         })
 
         return redirect(url_for("admin_dashboard"))
@@ -139,6 +150,11 @@ def aboutPage():
 @app.route("/services")
 def servicesPage():
     return render_template("services.html")
+
+# Route for contact page
+@app.route("/contact")
+def contactPage():
+    return render_template("contact.html")
 
 # This function checks if the user is logged in
 def login_required(f):
